@@ -1,0 +1,5 @@
+django
+whitenoise
+djangorestframework
+pillow
+djangorestframework-simplejwt
