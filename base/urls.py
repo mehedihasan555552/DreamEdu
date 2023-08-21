@@ -7,6 +7,8 @@ urlpatterns = [
     path('universitys/<str:pk>/', views.getUniversity, name='university'),
     path('feedback/', views.getStudendFeedback, name='feedback'),
     path('solutions/', views.getStudySolutions, name='solutions'),
+    path('contact/', views.NewContact, name='contact'),
+    path('apply/', views.ApplyNew, name='apply'),
 
 
 ]

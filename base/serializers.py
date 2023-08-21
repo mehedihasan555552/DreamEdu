@@ -21,3 +21,18 @@ class StudySolutionSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudySolution
         fields ='__all__'
+
+
+
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields ='__all__'
+
+
+
+
+class ApplySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Apply
+        fields ='__all__'
