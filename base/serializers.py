@@ -36,3 +36,19 @@ class ApplySerializer(serializers.ModelSerializer):
     class Meta:
         model = Apply
         fields ='__all__'
+
+
+
+
+class BlogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Blog
+        fields ='__all__'
+
+
+
+
+class EmailSubscriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EmailSubscription
+        fields = '__all__'

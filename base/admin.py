@@ -5,3 +5,7 @@ from .models import *
 admin.site.register(UniversityNameList)
 admin.site.register(StudentsFeedback)
 admin.site.register(StudySolution)
+admin.site.register(Contact)
+admin.site.register(Apply)
+admin.site.register(Blog)
+admin.site.register(EmailSubscription)

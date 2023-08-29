@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import *
 from .models import *
 from django.shortcuts import get_object_or_404
-
+from django.core.mail import send_mail
 
 
 # Create your views here.
@@ -81,4 +81,48 @@ def ApplyNew(request):
     apply = Apply.objects.create(first_name=first_name,last_name=last_name,applytype=applytype,address=address,city=city,country=country,passport=passport,photo=photo,police_clearance=police_clearance,bank_statement=bank_statement,stady_plan=stady_plan,higher_secondary=higher_secondary,other=other)
 
     serializer = ApplySerializer(apply, many=False)
+    return Response(serializer.data)
+
+
+
+
+
+@api_view(['GET'])
+def Blogs(request):
+    blogs = Blog.objects.all().order_by('-created_at')
+    serializer = BlogSerializer(blogs, many=True)
+
+    return Response({'blogs': serializer.data})
+
+
+
+
+@api_view(['GET'])
+def getBlogs(request, pk):
+    blog = get_object_or_404(Blog, id=pk)
+    serializer = BlogSerializer(blog, many=False)
+
+    return Response({'blog': serializer.data})
+
+
+
+
+@api_view(['GET'])
+def LatestBlogs(request):
+    blogs = Blog.objects.all().order_by('-created_at')[:3]
+    serializer = BlogSerializer(blogs, many=True)
+
+    return Response({'blogs': serializer.data})
+
+
+
+@api_view(['POST'])
+def Newsletter(request):
+    data = request.data
+    email = data['email']
+    email_Subs = EmailSubscription.objects.create(email=email)
+    if email_Subs:
+        send_mail('Subscription Confirmation', 'Thank you for subscribing!', 'contact@dreameduifo.com', [email], fail_silently=True)
+
+    serializer = EmailSubscriptionSerializer(email_Subs, many=False)
     return Response(serializer.data)

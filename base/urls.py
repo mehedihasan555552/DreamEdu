@@ -9,6 +9,10 @@ urlpatterns = [
     path('solutions/', views.getStudySolutions, name='solutions'),
     path('contact/', views.NewContact, name='contact'),
     path('apply/', views.ApplyNew, name='apply'),
+    path('blogs/', views.Blogs, name='blogs'),
+    path('blogs/<str:pk>/', views.getBlogs, name='blog'),
+    path('latest-blogs/', views.LatestBlogs, name='latest-blogs'),
+    path('newsletter/', views.Newsletter, name='newsletter'),
 
 
 ]
