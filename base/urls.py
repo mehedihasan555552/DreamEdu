@@ -13,6 +13,7 @@ urlpatterns = [
     path('blogs/<str:pk>/', views.getBlogs, name='blog'),
     path('latest-blogs/', views.LatestBlogs, name='latest-blogs'),
     path('newsletter/', views.Newsletter, name='newsletter'),
+    # path('fbposts/', views.facebookPost, name='fbposts'),
 
 
 ]

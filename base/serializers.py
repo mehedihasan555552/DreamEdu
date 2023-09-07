@@ -41,9 +41,10 @@ class ApplySerializer(serializers.ModelSerializer):
 
 
 class BlogSerializer(serializers.ModelSerializer):
+    author = serializers.ReadOnlyField(source='author.username')
     class Meta:
         model = Blog
-        fields ='__all__'
+        fields =['id', 'title', 'description', 'blog_pic', 'Category', 'created_at', 'updated_at','author']
 
 
 
