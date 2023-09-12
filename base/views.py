@@ -7,7 +7,9 @@ from .serializers import *
 from .models import *
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
-
+from django.db.models import Avg, Min, Max, Count
+from rest_framework.pagination import PageNumberPagination
+from .filters import BlogPostFilter
 
 # Create your views here.
 
@@ -89,10 +91,19 @@ def ApplyNew(request):
 
 @api_view(['GET'])
 def Blogs(request):
-    blogs = Blog.objects.all().order_by('-created_at')
-    serializer = BlogSerializer(blogs, many=True)
+    filterset = BlogPostFilter(request.GET, queryset=Blog.objects.all().order_by('-created_at'))
+    # Pagination
+    resPerPage = 3
+    paginator = PageNumberPagination()
+    paginator.page_size = resPerPage
 
-    return Response({'blogs': serializer.data})
+    queryset = paginator.paginate_queryset(filterset.qs, request)
+
+    serializer = BlogSerializer(queryset, many=True)
+
+    return Response({ 
+        "resPerPage": resPerPage,
+        'blogs': serializer.data})
 
 
 
@@ -133,34 +144,9 @@ def Newsletter(request):
 
 
 
+@api_view(['GET'])
+def getTeamMember(request):
+    teammember = TeamMember.objects.all()
+    serializer = TeamMemberSerializer(teammember, many=True)
 
-
-# import requests
-
-
-
-# def facebookPost(request):
-#     # Replace with your Page ID and App Secret Key
-#     page_id = '1012236045619075'
-#     app_secret_key = 'EAAY0zPZC0HxoBOwN3stXZBxE1mIo5xfWuiZCuusCXscqsuE6nHlslbpSZAL4CFOENCDp4s0ncZC15ZCLvZAvwJ1GyGIg9D9ryTaUsKZCZBwuDrijn8uWcPABYhtbjG8GvYUZBgTq4rCn69WbEEAWLe12TR6lDYGfj64nWAPjPwao6TKrrP1TZCrUNOpNcdAbZC2lxOnfRnFbZB4fVJab46SkP8LZBFdlS77QgZD'
-
-#     # Generate a User Access Token using the App ID and App Secret Key
-#     app_id = 'YOUR_APP_ID'
-#     user_access_token_url = f'https://graph.facebook.com/oauth/access_token?client_id={app_id}&client_secret={app_secret_key}&grant_type=client_credentials'
-#     response = requests.get(user_access_token_url)
-#     access_token = response.json().get('access_token')
-
-#     # Use the generated User Access Token to fetch posts
-#     posts_url = f'https://graph.facebook.com/v12.0/{page_id}/posts?access_token={access_token}&fields=message,created_time'
-#     response = requests.get(posts_url)
-
-#     if response.status_code == 200:
-#         data = response.json()
-#         posts = data.get('data', [])
-#         for post in posts:
-#             message = post.get('message', 'No message')
-#             created_time = post.get('created_time', 'No creation time')
-#             print(f"Message: {message}\nCreated Time: {created_time}\n")
-#     else:
-#         print(f"Failed to fetch Facebook posts. Status code: {response.status_code}")
-
+    return Response({'teammember': serializer.data})

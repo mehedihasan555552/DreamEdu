@@ -44,7 +44,7 @@ class BlogSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='author.username')
     class Meta:
         model = Blog
-        fields =['id', 'title', 'description', 'blog_pic', 'Category', 'created_at', 'updated_at','author']
+        fields =['id', 'title', 'description', 'blog_pic', 'category', 'created_at', 'updated_at','author']
 
 
 
@@ -52,4 +52,12 @@ class BlogSerializer(serializers.ModelSerializer):
 class EmailSubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = EmailSubscription
+        fields = '__all__'
+
+
+
+
+class TeamMemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TeamMember
         fields = '__all__'

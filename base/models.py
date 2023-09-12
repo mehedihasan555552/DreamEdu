@@ -84,14 +84,19 @@ class Apply(models.Model):
         return self.first_name
     
 
+class Category(models.Model):
+    name = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.name
+    
 
 
 class Blog(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     blog_pic = models.ImageField(default='default.jpg',null=True,blank=True)
-    Category = models.CharField(max_length=200)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     author = models.ForeignKey(User,related_name='blog_author',on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -113,3 +118,17 @@ class EmailSubscription(models.Model):
 
     def __str__(self):
         return self.email
+    
+
+
+
+class TeamMember(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField()
+    Picture = models.ImageField(default='default.jpg',null=True,blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+    def __str__(self):
+        return self.name
